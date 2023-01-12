@@ -48,7 +48,8 @@ public class CondominoController {
 	}
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Condomino> atualizar(@PathVariable Integer id, @RequestBody Condomino condomino){
+	public ResponseEntity<Condomino> atualizar(@PathVariable Integer id, 
+		@RequestBody Condomino condomino){
 		Condomino obj = condominoService.atualizar(id, condomino);
 		return ResponseEntity.ok().body(obj);
 	}

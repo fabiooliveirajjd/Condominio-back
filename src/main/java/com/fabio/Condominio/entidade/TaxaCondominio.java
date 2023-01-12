@@ -25,11 +25,13 @@ public class TaxaCondominio implements Serializable {
 	private StatusTaxaPagamento statusTaxaPagamento;
 
 	@JsonFormat(pattern = "dd/MM/yyyy")
-	private LocalDate dataPagamento = LocalDate.now();
+	private LocalDate dataPagamento;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "id_condominio")
 	private Condomino condomino;
+	
+	
 
 	public TaxaCondominio() {
 		super();
