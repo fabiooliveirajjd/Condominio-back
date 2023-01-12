@@ -17,16 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.fabio.Condominio.entidade.Condomino;
-import com.fabio.Condominio.repositories.CondominoRepository;
 import com.fabio.Condominio.service.CondominoService;
 
 @RestController
 @CrossOrigin(value = "*")
 @RequestMapping(value = "/condominos")
 public class CondominoController {
-
-	@Autowired
-	private CondominoRepository condominoRepository;
 
 	@Autowired
 	CondominoService condominoService;

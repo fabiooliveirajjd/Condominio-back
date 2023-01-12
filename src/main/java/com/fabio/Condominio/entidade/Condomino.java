@@ -8,12 +8,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-
 @Entity
 public class Condomino implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@Column(name = "id_condominio")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idCondomino;
 
@@ -28,7 +28,12 @@ public class Condomino implements Serializable {
 
 	@Column
 	private String unidade;
-
+	
+	
+//	@OneToOne(cascade = CascadeType.ALL)
+//	@JoinColumn(name = "id_taxa_condominio")
+//	private TaxaCondominio taxaCondominio;
+	
 	public Condomino() {
 		super();
 	}
