@@ -2,9 +2,9 @@ package com.fabio.Condominio.enuns;
 
 public enum StatusTaxaPagamento {
 	
-	ABERTO(1, "ABERTO"),
-	pagoComDesconto(2, "pagoComDesconto"),
-	pagoSemDesconto(3, "pagoSemDesconto");
+	ABERTO(0, "ABERTO"),
+	pagoComDesconto(1, "pagoComDesconto"),
+	pagoSemDesconto(2, "pagoSemDesconto");
 	
 	
 	private Integer codigo;
