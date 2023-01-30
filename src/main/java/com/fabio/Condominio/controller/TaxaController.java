@@ -54,8 +54,8 @@ public class TaxaController {
 		List<Taxa> listTaxa = taxaService.ListarTodasAsTaxas();
 		for (Taxa taxa : listTaxa) {
 			Condomino condomino = condominoService.buscarPorId(taxa.getIdCondomino());
-			taxa.setNomeCondomino(condomino.getNome());
-			taxa.setUnidadeCondomino(condomino.getUnidade());
+			taxa.setNomeCondomino(condomino != null ? condomino.getNome() : "Condômino Ecluído");
+			taxa.setUnidadeCondomino(condomino != null ? condomino.getUnidade() : "Condômino Ecluído");
 
 		}
 
@@ -66,8 +66,8 @@ public class TaxaController {
 	public ResponseEntity<Taxa> buscarPorId(@PathVariable Integer id) {
 		Taxa obj = taxaService.buscarPorId(id);
 		Condomino condomino = condominoService.buscarPorId(obj.getIdCondomino());
-		obj.setNomeCondomino(condomino.getNome());
-		obj.setUnidadeCondomino(condomino.getUnidade());
+		obj.setNomeCondomino(condomino != null ? condomino.getNome() : "Condômino Ecluído");
+		obj.setUnidadeCondomino(condomino != null ? condomino.getUnidade() : "Condômino Ecluído");
 
 		return ResponseEntity.ok().body(obj);
 	}
@@ -84,8 +84,8 @@ public class TaxaController {
 		}
 		Taxa obj = taxaService.atualizar(id, taxa);
 		Condomino condomino = condominoService.buscarPorId(obj.getIdCondomino());
-		obj.setNomeCondomino(condomino.getNome());
-		obj.setUnidadeCondomino(condomino.getUnidade());
+		obj.setNomeCondomino(condomino != null ? condomino.getNome() : "Condômino Ecluído");
+		obj.setUnidadeCondomino(condomino != null ? condomino.getUnidade() : "Condômino Ecluído");
 		return ResponseEntity.ok().body(obj);
 	}
 
@@ -94,5 +94,5 @@ public class TaxaController {
 		taxaService.excluir(id);
 		return ResponseEntity.noContent().build();
 	}
-
+  
 }
