@@ -53,7 +53,7 @@ public class TaxaController {
 	public ResponseEntity<List<Taxa>> ListarTodasAsTaxas() {
 		List<Taxa> listTaxa = taxaService.ListarTodasAsTaxas();
 		for (Taxa taxa : listTaxa) {
-			Condomino condomino = condominoService.buscarPorId(taxa.getIdCondomino());
+			Condomino condomino = condominoService.buscarCondominoPorId(taxa.getIdCondomino());
 			taxa.setNomeCondomino(condomino != null ? condomino.getNome() : "Condômino Ecluído");
 			taxa.setUnidadeCondomino(condomino != null ? condomino.getUnidade() : "Condômino Ecluído");
 
@@ -65,7 +65,7 @@ public class TaxaController {
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<Taxa> buscarPorId(@PathVariable Integer id) {
 		Taxa obj = taxaService.buscarPorId(id);
-		Condomino condomino = condominoService.buscarPorId(obj.getIdCondomino());
+		Condomino condomino = condominoService.buscarCondominoPorId(obj.getIdCondomino());
 		obj.setNomeCondomino(condomino != null ? condomino.getNome() : "Condômino Ecluído");
 		obj.setUnidadeCondomino(condomino != null ? condomino.getUnidade() : "Condômino Ecluído");
 
@@ -83,7 +83,7 @@ public class TaxaController {
 			taxa.setDataPagamento(LocalDate.now());
 		}
 		Taxa obj = taxaService.atualizar(id, taxa);
-		Condomino condomino = condominoService.buscarPorId(obj.getIdCondomino());
+		Condomino condomino = condominoService.buscarCondominoPorId(obj.getIdCondomino());
 		obj.setNomeCondomino(condomino != null ? condomino.getNome() : "Condômino Ecluído");
 		obj.setUnidadeCondomino(condomino != null ? condomino.getUnidade() : "Condômino Ecluído");
 		return ResponseEntity.ok().body(obj);

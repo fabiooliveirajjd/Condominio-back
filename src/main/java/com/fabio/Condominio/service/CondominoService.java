@@ -11,31 +11,34 @@ import com.fabio.Condominio.repositories.CondominoRepository;
 
 @Service
 public class CondominoService {
+
 	@Autowired
 	private CondominoRepository condominoRepository;
-	
-	public Condomino create(Condomino condomino) {
-	return condominoRepository.save(condomino);
-	}
-	
-	public List<Condomino> ListarTodosCondominos(){
-		return condominoRepository.findAll();
-	}
-	
-	public Condomino buscarPorId(Integer id) {
-		Optional<Condomino> obj = condominoRepository.findById(id);
-		return obj.orElse(null);
-	}
-	
-	public Condomino atualizar(Integer id, Condomino condomino) {
-		Condomino oldObj = buscarPorId(id);
+
+	public Condomino salvarCondomino(Condomino condomino) {
 		return condominoRepository.save(condomino);
 	}
-	
-	public void excluir(Integer id){
-		Condomino obj = buscarPorId(id);
+
+	public List<Condomino> listarCondominos() {
+		return condominoRepository.findAll();
+	}
+
+	public Condomino buscarCondominoPorId(Integer id) {
+		Optional<Condomino> optionalCondomino = condominoRepository.findById(id);
+		return optionalCondomino.orElse(null);
+	}
+
+	public Condomino alterarCondomino(Integer id, Condomino condomino) {
+		Optional<Condomino> optionalCondomino = condominoRepository.findById(id);
+		if (optionalCondomino.isPresent()) {
+			condomino.setIdCondomino(id);
+			return condominoRepository.save(condomino);
+		}
+		return null;
+	}
+
+	public void excluirCondomino(Integer id) {
 		condominoRepository.deleteById(id);
 	}
-	
-	
+
 }

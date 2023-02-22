@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,50 +15,56 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.fabio.Condominio.entidade.Condomino;
 import com.fabio.Condominio.service.CondominoService;
 
 @RestController
+@RequestMapping("/condominos")
 @CrossOrigin(value = "*")
-@RequestMapping(value = "/condominos")
 public class CondominoController {
 
-	@Autowired
-	CondominoService condominoService;
+    @Autowired
+    private CondominoService condominoService;
 
-	@PostMapping
-	public ResponseEntity<Condomino> create(@RequestBody Condomino condomino) {
-		Condomino novoCondomino = condominoService.create(condomino);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-				.buildAndExpand(novoCondomino.getIdCondomino()).toUri();
-		return ResponseEntity.created(uri).build();
-	}
+    @GetMapping
+    public ResponseEntity<List<Condomino>> listarCondominos() {
+        List<Condomino> condominos = condominoService.listarCondominos();
+        if (condominos.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok().body(condominos);
+    }
 
-	@GetMapping
-	public ResponseEntity<List<Condomino>> ListarTodosCondominos(){
-		List<Condomino> listCondominos = condominoService.ListarTodosCondominos();
-		return ResponseEntity.ok().body(listCondominos);
-	}
+    @GetMapping("/{id}")
+    public ResponseEntity<Condomino> buscarCondominoPorId(@PathVariable Integer id) {
+        Condomino condomino = condominoService.buscarCondominoPorId(id);
+        if (condomino != null) {
+            return ResponseEntity.ok().body(condomino);
+        }
+        return ResponseEntity.notFound().build();
+    }
 
-	@GetMapping(value = "/{id}")
-	public ResponseEntity<Condomino> buscarPorId (@PathVariable Integer id){
-		Condomino obj = condominoService.buscarPorId(id);
-		return ResponseEntity.ok().body(obj);
-	}
-	
-	@PutMapping(value = "/{id}")
-	public ResponseEntity<Condomino> atualizar(@PathVariable Integer id, 
-		@RequestBody Condomino condomino){
-		Condomino obj = condominoService.atualizar(id, condomino);
-		return ResponseEntity.ok().body(obj);
-	}
-	
-	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<Condomino> excluir(@PathVariable Integer id) {
-		condominoService.excluir(id);
-		return ResponseEntity.noContent().build();
-	}
+    @PostMapping
+    public ResponseEntity<Condomino> salvarCondomino(@Validated @RequestBody Condomino condomino) {
+        condomino = condominoService.salvarCondomino(condomino);
+        URI location = URI.create("/condominos/" + condomino.getIdCondomino());
+        return ResponseEntity.created(location).body(condomino);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Condomino> alterarCondomino(@PathVariable Integer id, @Validated @RequestBody Condomino condomino) {
+        condomino = condominoService.alterarCondomino(id, condomino);
+        if (condomino != null) {
+            return ResponseEntity.ok().body(condomino);
+        }
+        return ResponseEntity.notFound().build();
+    }
+    
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> excluirCondomino(@PathVariable Integer id) {
+        condominoService.excluirCondomino(id);
+        return ResponseEntity.noContent().build();
+    }
 
 }
